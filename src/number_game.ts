@@ -1,4 +1,5 @@
 import readline from 'readline';
+import { Command } from 'commander';
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const ColorFgRed = '\x1b[31m';
@@ -21,6 +22,7 @@ function getRandomInt(max: number, notZero?: boolean) {
 
 const COUNTDOWN_START = 3;
 const OPERATIONS = (['+', '-', 'x', '/'] as const).slice();
+const DEFAULT_QUESTION_COUNT = 20;
 
 interface Question {
   operand1: number;
@@ -29,8 +31,17 @@ interface Question {
   result: number;
 }
 
+const program = new Command();
+const options = program
+  .option('-c, --question-count <count>', 'Number of questions that will be asked', String(DEFAULT_QUESTION_COUNT))
+  .parse(process.argv)
+  .opts();
+
 (async () => {
-  const questions = Array(5).fill(0).map<Question>(() => {
+  const questionCount = Number(options.questionCount) || DEFAULT_QUESTION_COUNT;
+  console.log(`${questionCount} Questions`);
+
+  const questions = Array(questionCount).fill(0).map<Question>(() => {
     const operation = OPERATIONS[Math.floor(Math.random() * OPERATIONS.length)];
     switch(operation) {
       case '+': {
