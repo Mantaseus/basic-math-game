@@ -1,7 +1,8 @@
 import readline from 'readline';
 
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+
 async function askQuestion(question: string) {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   return await new Promise<string>(res => rl.question(question, res));
 }
 
@@ -45,14 +46,18 @@ interface Question {
       }
     }
   });
-  console.log(questions)
-  return;
 
   for (let i = COUNTDOWN_START; i > 0; i--) {
     console.log(`Get Ready... ${i}`);
     await new Promise(res => setTimeout(res, 1000));
   }
 
-  console.log(await askQuestion('Say something: '));
+  for (const question of questions) {
+    const answer = await askQuestion(`${question.operand1} ${question.operation} ${question.operand2} = `);
+    if (Number(answer) !== question.result) {
+      console.log(`Incorrect. ${question.result}`);
+    }
+  }
+
   process.exit();
 })();
