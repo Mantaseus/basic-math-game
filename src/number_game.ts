@@ -6,6 +6,16 @@ async function askQuestion(question: string) {
   return await new Promise<string>(res => rl.question(question, res));
 }
 
+function getRandomInt(max: number, notZero?: boolean) {
+  while (true) {
+    const val = Math.floor(Math.random() * max);
+    if (notZero && val === 0) {
+      continue;
+    }
+    return val;
+  }
+}
+
 const COUNTDOWN_START = 3;
 const OPERATIONS = (['+', '-', 'x', '/'] as const).slice();
 
@@ -21,26 +31,26 @@ interface Question {
     const operation = OPERATIONS[Math.floor(Math.random() * OPERATIONS.length)];
     switch(operation) {
       case '+': {
-        const operand1 = Math.floor(Math.random() * 10);
-        const operand2 = Math.floor(Math.random() * 10);
+        const operand1 = getRandomInt(10);
+        const operand2 = getRandomInt(10);
         const result = operand1 + operand2;
         return { operand1, operand2, operation, result };
       }
       case '-': {
-        const result = Math.floor(Math.random() * 10);
-        const operand2 = Math.floor(Math.random() * 10);
+        const result = getRandomInt(10);
+        const operand2 = getRandomInt(10);
         const operand1 = result + operand2;
         return { operand1, operand2, operation, result };
       }
       case 'x': {
-        const operand1 = Math.floor(Math.random() * 10);
-        const operand2 = Math.floor(Math.random() * 10);
+        const operand1 = getRandomInt(10);
+        const operand2 = getRandomInt(10);
         const result = operand1 * operand2;
         return { operand1, operand2, operation, result };
       }
       case '/': {
-        const result = Math.floor(Math.random() * 10);
-        const operand2 = Math.floor(Math.random() * 10);
+        const result = getRandomInt(10, true);
+        const operand2 = getRandomInt(10, true);
         const operand1 = result * operand2;
         return { operand1, operand2, operation, result };
       }
