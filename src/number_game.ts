@@ -62,6 +62,8 @@ interface Question {
     await new Promise(res => setTimeout(res, 1000));
   }
 
+  const start = performance.now();
+
   for (const question of questions) {
     const answer = await askQuestion(`${question.operand1} ${question.operation} ${question.operand2} = `);
     if (Number(answer) !== question.result) {
@@ -69,5 +71,7 @@ interface Question {
     }
   }
 
+  console.log(`Time: ${Math.floor((performance.now() - start) / 100) / 10}s`);
+  
   process.exit();
 })();
