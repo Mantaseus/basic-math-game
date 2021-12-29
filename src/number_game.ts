@@ -1,6 +1,9 @@
 import readline from 'readline';
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const ColorFgRed = '\x1b[31m';
+const ColorFgGreen = '\x1b[32m';
+const ColorReset = '\x1b[0m';
 
 async function askQuestion(question: string) {
   return await new Promise<string>(res => rl.question(question, res));
@@ -49,7 +52,7 @@ interface Question {
         return { operand1, operand2, operation, result };
       }
       case '/': {
-        const result = getRandomInt(10, true);
+        const result = getRandomInt(100, true);
         const operand2 = getRandomInt(10, true);
         const operand1 = result * operand2;
         return { operand1, operand2, operation, result };
@@ -58,20 +61,26 @@ interface Question {
   });
 
   for (let i = COUNTDOWN_START; i > 0; i--) {
-    console.log(`Get Ready... ${i}`);
+    process.stdout.cursorTo(0);
+    process.stdout.clearLine(0);
+    process.stdout.write(`Get Ready... ${i}`);
     await new Promise(res => setTimeout(res, 1000));
   }
 
   const start = performance.now();
 
   for (const question of questions) {
-    const answer = await askQuestion(`${question.operand1} ${question.operation} ${question.operand2} = `);
-    if (Number(answer) !== question.result) {
-      console.log(`Incorrect. ${question.result}`);
-    }
+    const questionStr = `${question.operand1} ${question.operation} ${question.operand2} = `;
+    const answer = await askQuestion(questionStr);
+
+    const color = Number(answer) !== question.result ? ColorFgRed : ColorFgGreen;
+
+    process.stdout.moveCursor(0, -1);
+    process.stdout.clearScreenDown();
+    console.log(`${color}${questionStr}${answer}${ColorReset}`)
   }
 
-  console.log(`Time: ${Math.floor((performance.now() - start) / 100) / 10}s`);
+  console.log(`\nTime: ${Math.floor((performance.now() - start) / 100) / 10}s`);
   
   process.exit();
 })();
