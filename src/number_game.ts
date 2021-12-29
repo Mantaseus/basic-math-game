@@ -31,19 +31,19 @@ interface Question {
     const operation = OPERATIONS[Math.floor(Math.random() * OPERATIONS.length)];
     switch(operation) {
       case '+': {
-        const operand1 = getRandomInt(10);
-        const operand2 = getRandomInt(10);
+        const operand1 = getRandomInt(100);
+        const operand2 = getRandomInt(100);
         const result = operand1 + operand2;
         return { operand1, operand2, operation, result };
       }
       case '-': {
-        const result = getRandomInt(10);
-        const operand2 = getRandomInt(10);
+        const result = getRandomInt(100);
+        const operand2 = getRandomInt(100);
         const operand1 = result + operand2;
         return { operand1, operand2, operation, result };
       }
       case 'x': {
-        const operand1 = getRandomInt(10);
+        const operand1 = getRandomInt(100);
         const operand2 = getRandomInt(10);
         const result = operand1 * operand2;
         return { operand1, operand2, operation, result };
