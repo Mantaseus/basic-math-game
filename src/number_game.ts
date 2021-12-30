@@ -20,6 +20,16 @@ function getRandomInt(max: number, notZero?: boolean) {
   }
 }
 
+class Timing {
+  private startTime: number = 0;
+  start() {
+    this.startTime = performance.now();
+  }
+  end(): string {
+    return `${Math.floor((performance.now() - this.startTime) / 100) / 10}s`;
+  }
+}
+
 const COUNTDOWN_START = 3;
 const OPERATIONS = (['+', '-', 'x', '/'] as const).slice();
 const DEFAULT_QUESTION_COUNT = 20;
@@ -78,9 +88,13 @@ const options = program
     await new Promise(res => setTimeout(res, 1000));
   }
 
-  const start = performance.now();
+  const overallTiming = new Timing();
+  overallTiming.start();
 
   for (const question of questions) {
+    const questionTiming = new Timing();
+    questionTiming.start();
+
     const questionStr = `${question.operand1} ${question.operation} ${question.operand2} = `;
     const answer = await askQuestion(questionStr);
 
@@ -88,10 +102,10 @@ const options = program
 
     process.stdout.moveCursor(0, -1);
     process.stdout.clearScreenDown();
-    console.log(`${color}${questionStr}${answer}${ColorReset}`)
+    console.log(`${color}${questionStr}${answer}${ColorReset} (${questionTiming.end()})`)
   }
 
-  console.log(`\nTime: ${Math.floor((performance.now() - start) / 100) / 10}s`);
+  console.log(`\nTime: ${overallTiming.end()}`);
   
   process.exit();
 })();
