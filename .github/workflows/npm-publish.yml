@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./lib
+          path: ./build
           key: ${{ github.sha }}
 
   publish-npm:
@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./lib
+          path: ./build
           key: ${{ github.sha }}
       - run: npm publish
         env:
