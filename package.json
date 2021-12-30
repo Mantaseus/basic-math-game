@@ -1,14 +1,13 @@
 {
-  "name": "cli",
+  "name": "basic-math-game",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A very basic command line math game",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
