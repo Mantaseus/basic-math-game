@@ -5,6 +5,12 @@
   "scripts": {
     "build": "tsc"
   },
+  "bin": {
+    "basic-math-game": "./build/the_game.js"
+  },
+  "files": [
+    "build"
+  ],
   "keywords": [],
   "author": "",
   "license": "MIT",
